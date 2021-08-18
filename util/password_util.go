@@ -1,6 +1,9 @@
 package util
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
+)
 
 func PasswordHash(pw string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
@@ -12,4 +15,8 @@ func PasswordHash(pw string) (string, error) {
 
 func PasswordVerify(hash, pw string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(pw))
+}
+
+func GeneratePassword() string {
+	return uuid.NewString() + uuid.NewString() + uuid.NewString() + uuid.NewString()
 }

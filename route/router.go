@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"toufu3.jp/Idp/repository"
 	"toufu3.jp/Idp/route/account"
+	"toufu3.jp/Idp/route/oauth"
+	"toufu3.jp/Idp/route/service"
 )
 
 func setupOAuthRouter(r repository.DB, authRouter *gin.RouterGroup) {
@@ -25,9 +27,10 @@ func Setup(env repository.Env, r repository.DB) {
 
 	//TODO
 	//OAuth IDToken回りの実装
-	setupOAuthRouter(r, authRouter)
-	account.SetupRouter(r, apiRouter)
+	oauth.SetupRouter(r, authRouter)
 
+	account.SetupRouter(r, apiRouter)
+	service.SetupRouter(r, apiRouter)
 	if err := router.Run(fmt.Sprintf(":%d", env.App_Port)); err != nil {
 		fmt.Println(err.Error())
 	}

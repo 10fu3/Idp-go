@@ -4,16 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"toufu3.jp/Idp/model"
-	"toufu3.jp/Idp/model/request/admin"
 	"toufu3.jp/Idp/repository"
+	"toufu3.jp/Idp/request/account/admin"
 )
 
 type fullAccountInfo struct {
-	Uuid        string `json:"uuid"`
-	Name      string `json:"name"`
-	Mail      string `json:"mail"`
-	Avatar    string `json:"avatar"`
-	Bio       string `json:"bio"`
+	Uuid   string `json:"uuid"`
+	Name   string `json:"name"`
+	Mail   string `json:"mail"`
+	Avatar string `json:"avatar"`
+	Bio    string `json:"bio"`
 	model.IAccountAttribute
 }
 
@@ -28,30 +28,27 @@ func convertFullInfo(account model.IAccount) fullAccountInfo {
 	}
 }
 
-func GetHandler(r repository.DB, u model.IAccount,ctx *gin.Context) {
+func GetHandler(r repository.DB, u model.IAccount, ctx *gin.Context) {
 	var req admin.AccountTargetRequest
 
-	if ctx.BindJSON(req) != nil || req.Uuid == ""{
-		ctx.AbortWithStatusJSON(http.StatusBadRequest,gin.H{
-			"status":"error",
-			"message":"need_uuid",
+	if ctx.BindJSON(req) != nil || req.Uuid == "" {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+			"message": "need_uuid",
 		})
 		return
 	}
 
 	account := r.(repository.IAccountRepository).GetAccount(req.Uuid)
 
-	if account == nil{
-		ctx.AbortWithStatusJSON(http.StatusNotFound,gin.H{
-			"status":"error",
-			"message":"not_exist_account",
+	if account == nil {
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+			"status":  "error",
+			"message": "not_exist_account",
 		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK,convertFullInfo(account))
-
-
-
+	ctx.JSON(http.StatusOK, convertFullInfo(account))
 
 }

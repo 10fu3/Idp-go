@@ -1,33 +1,32 @@
-package admin
+package account
 
 import "toufu3.jp/Idp/model"
 
 type AccountUpdateRequest struct {
-	Uuid string `json:"uuid"`
-	Name string `json:"name"`
-	Mail string `json:"mail"`
+	Name     string `json:"name"`
+	Mail     string `json:"mail"`
 	Password string `json:"password"`
-	Avatar string `json:"avatar"`
-	Bio string `json:"bio"`
+	Avatar   string `json:"avatar"`
+	Bio      string `json:"bio"`
 }
 
-func (a *AccountUpdateRequest) Convert (source model.IAccount) model.IAccount{
+func (a *AccountUpdateRequest) Convert(source model.IAccount) model.IAccount {
 
 	m := model.Account{}
 
-	if a.Name != ""{
+	if a.Name != "" {
 		m.Name = source.GetName()
 	}
-	if a.Password != ""{
+	if a.Password != "" {
 		m.Password = source.GetPassword()
 	}
-	if a.Mail != ""{
+	if a.Mail != "" {
 		m.Mail = source.GetMail()
 	}
-	if a.Bio != ""{
+	if a.Bio != "" {
 		m.Bio = source.GetBio()
 	}
-	if a.Avatar != ""{
+	if a.Avatar != "" {
 		m.Avatar = source.GetAvatar()
 	}
 
