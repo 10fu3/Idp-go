@@ -46,12 +46,14 @@ type AllDB struct {
 type DB interface {
 	IAccountRepository
 	ITempAccountRepository
+	ILoginSessionStore
+	IServiceRepository
 }
 
-func ConnectDB(dsn string) (DB,error) {
-	db,err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil{
-		return nil,err
+func ConnectDB(dsn string) (DB, error) {
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
 	}
-	return &AllDB{db: db},nil
+	return &AllDB{db: db}, nil
 }
